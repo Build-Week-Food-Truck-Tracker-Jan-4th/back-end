@@ -3,11 +3,10 @@ package com.lambdaschool.foundation;
 import com.github.javafaker.Faker;
 import com.github.javafaker.service.FakeValuesService;
 import com.github.javafaker.service.RandomService;
-import com.lambdaschool.foundation.models.Role;
-import com.lambdaschool.foundation.models.User;
-import com.lambdaschool.foundation.models.UserRoles;
-import com.lambdaschool.foundation.models.Useremail;
+import com.lambdaschool.foundation.models.*;
+import com.lambdaschool.foundation.services.MenuService;
 import com.lambdaschool.foundation.services.RoleService;
+import com.lambdaschool.foundation.services.TruckService;
 import com.lambdaschool.foundation.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * SeedData puts both known and random data into the database. It implements CommandLineRunner.
@@ -38,6 +38,12 @@ public class SeedData
      */
     @Autowired
     UserService userService;
+
+    @Autowired
+    TruckService truckService;
+
+    @Autowired
+    MenuService menuService;
 
     /**
      * Generates test, seed data for our application
@@ -133,6 +139,43 @@ public class SeedData
             .add(new UserRoles(u5,
                 r2));
         userService.save(u5);
+
+        Truck t1 = new Truck("test truck",
+                "image",
+                "italian",
+                10,
+                34,
+                53);
+
+        Menu m1 = new Menu("meatballs",
+                "yummy meatballs in marinara",
+                10,
+                4,
+                4);
+
+        m1 = menuService.save(m1);
+
+        t1.getMenus().add(new TruckMenus(t1, m1));
+
+        truckService.save(t1);
+
+//        private String itemname;
+//
+//        private String itemdescription;
+//
+//        private double itemprice;
+//
+//        private int customerratings;
+//
+//        private int customerratingsavg;
+
+//        String truckname,
+//        String imageoftruck,
+//        String cuisinetype,
+//        long departuretime,
+//        long latitude,
+//        long longitude,
+//        Set<Menu> menus)
 
         if (false)
         {
